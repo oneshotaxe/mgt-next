@@ -3,7 +3,7 @@ version: "3"
 services:
   backend:
     build: ./backend
-    restart: on-failure
+    restart: always
     depends_on:
       - postgres
   postgres:
@@ -16,9 +16,11 @@ services:
       - POSTGRES_USER=mgt
       - POSTGRES_PASSWORD=Ll1FGMU8
       - POSTGRES_DB=mgt
+    restart: always 
   nginx:
     build: ./frontend
     ports:
       - "9000:80"
     depends_on:
       - backend
+    restart: always 
