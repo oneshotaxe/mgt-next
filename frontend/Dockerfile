@@ -12,6 +12,8 @@ RUN npm run build
 # Стадия 2 - nginx & статика фронтенда
 FROM nginx:alpine
 
+WORKDIR /dist/
+
 COPY prod.conf /etc/nginx/nginx.conf
 COPY --from=build-deps /app/dist/ /dist/
 
