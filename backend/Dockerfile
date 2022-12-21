@@ -14,4 +14,6 @@ FROM scratch
 
 COPY /apiserver /
 
+RUN chown -R ./apiserver
+
 CMD ["./apiserver"]
