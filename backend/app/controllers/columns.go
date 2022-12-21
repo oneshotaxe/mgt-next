@@ -193,7 +193,7 @@ func (cc *ColumnsController) Agreement(c *fiber.Ctx) error {
 	}
 
 	var drivers []models.Driver
-	if err := cc.db.Where("column_id = ?", id).Find(&drivers).Error; err != nil {
+	if err := cc.db.Where("column_id = ?", id).Order("num asc").Find(&drivers).Error; err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
 	}
 
@@ -225,7 +225,7 @@ func (cc *ColumnsController) Journal(c *fiber.Ctx) error {
 	}
 
 	var buses []models.Bus
-	if err := cc.db.Where("column_id = ?", id).Preload("Drivers").Preload("Gate").Preload("Gate.Route").Find(&buses).Error; err != nil {
+	if err := cc.db.Where("column_id = ?", id).Preload("Drivers").Preload("Gate").Preload("Gate.Route").Order("num asc").Find(&buses).Error; err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
 	}
 
