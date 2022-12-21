@@ -1,0 +1,86 @@
+{
+  "fields": {
+    "createdAt": "Дата/время создания",
+    "id": "ID",
+    "name": "Имя",
+    "fullName": "ФИО",
+    "title": "Название",
+    "nick": "Ник",
+    "column": "Колонна",
+    "num": "Номер",
+    "bus": "Автобус",
+    "route": "Маршрут",
+    "gate": "Выход",
+    "password": "Пароль",
+    "roles": "Роли",
+    "graphic": "График",
+    "secondName": "Отчество",
+    "surname": "Фамилия",
+    "unit": "Штатная единица",
+    "updatedAt": "Дата/время последнего обновления",
+    "user": "Пользователь",
+    "durationFirstSmene": "Продолжительность первой смены",
+    "durationSecondSmene": "Продолжительность второй смены",
+    "endWork": "Окончание работы",
+    "change": "Смена",
+    "lunchFirstSmene": "Время обеда первой смены",
+    "lunchSecondSmene": "Время обеда второй смены",
+    "outPark": "Выезд из парка"
+  },
+  "dialogs": {
+    "saveConfirm": "Вы действительно хотите сохранить запись?",
+    "removeConfirm": "Вы действительно хотите удалить запись?"
+  },
+  "alerts": {
+    "saveSuccess": "Запись успешно сохранена",
+    "removeSuccess": "Запись успешно удалена"
+  },
+  "actions": {
+    "create": "Добавить",
+    "edit": "Редактировать",
+    "remove": "Удалить",
+    "save": "Сохранить",
+    "cancel": "Отмена",
+    "toList": "К списку",
+    "toColumn": "Вернуться к колонне"
+  },
+  "users": {
+    "listTitle": "Пользователи",
+    "editorTitle": "Редактирование пользователя",
+    "creatorTitle": "Создание пользователя",
+    "viewTitle": "Информация о пользователе"
+  },
+  "columns": {
+    "listTitle": "Колонны",
+    "editorTitle": "Редактирование колонны",
+    "creatorTitle": "Создание колонны",
+    "viewTitle": "Информация о колонне"
+  },
+  "buses": {
+    "listTitle": "Автобусы",
+    "editorTitle": "Редактирование автобуса",
+    "creatorTitle": "Создание автобуса",
+    "viewTitle": "Информация о автобусе"
+  },
+  "drivers": {
+    "listTitle": "Водители",
+    "editorTitle": "Редактирование водителя",
+    "creatorTitle": "Создание водителя",
+    "viewTitle": "Информация о водителе"
+  },
+  "routes": {
+    "listTitle": "Маршруты",
+    "editorTitle": "Редактирование маршрута",
+    "creatorTitle": "Создание маршрута",
+    "viewTitle": "Информация о маршруте"
+  },
+  "gates": {
+    "listTitle": "Выходы",
+    "editorTitle": "Редактирование выхода",
+    "creatorTitle": "Создание выхода",
+    "viewTitle": "Информация о выходе"
+  },
+  "dashboard": {
+    "title": "Дашборд"
+  }
+}
