@@ -1,5 +1,5 @@
 # Стадия 1 - Собираем фронтенд-приложение
-FROM node:16-alpine as build-deps
+FROM node:16-alpine as build
 
 WORKDIR /app/
 
@@ -12,9 +12,7 @@ RUN npm run build
 # Стадия 2 - nginx & статика фронтенда
 FROM nginx:alpine
 
-WORKDIR /dist/
-
 COPY prod.conf /etc/nginx/nginx.conf
-COPY --from=build-deps /app/dist/ /dist/
+COPY --from=build ["/app/dist/", "/dist/"]
 
 CMD ["nginx", "-g", "daemon off;"]
