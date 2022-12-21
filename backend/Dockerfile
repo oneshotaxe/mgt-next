@@ -14,4 +14,4 @@ FROM scratch
 
 COPY /apiserver /
 
-ENTRYPOINT ["./apiserver"]
+CMD ["./apiserver"]
