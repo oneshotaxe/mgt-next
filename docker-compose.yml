@@ -3,10 +3,19 @@ version: "3"
 services:
   backend:
     build: ./backend
-    volumes:
-      - ./test.sqlite:/test.sqlite
     restart: on-failure
-
+    depends_on:
+      - postgres
+  postgres:
+    image: "postgres"
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres/data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=mgt
+      - POSTGRES_PASSWORD=Ll1FGMU8
+      - POSTGRES_DB=mgt
   nginx:
     build: ./frontend
     ports:

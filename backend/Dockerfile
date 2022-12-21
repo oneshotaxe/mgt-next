@@ -1,5 +1,4 @@
 FROM golang:1.19-alpine AS builder
-RUN apk add build-base
 
 WORKDIR /build
 
@@ -8,7 +7,11 @@ RUN go mod download
 
 COPY . .
 
-ENV GOOS=linux GOARCH=amd64
+ENV CGO_ENABLED=0 GOOS=linux GOARCH=amd64
 RUN go build -ldflags="-s -w" -o apiserver .
 
-CMD ["./apiserver"]
+FROM scratch
+
+COPY --from=builder ["/build/apiserver", "/"]
+
+ENTRYPOINT ["./apiserver"]
