@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  backend:
+    build: ./backend
+    volumes:
+      - ./test.sqlite:/test.sqlite
+    restart: on-failure
+
+  nginx:
+    build: ./frontend
+    ports:
+      - "9000:80"
+    depends_on:
+      - backend
