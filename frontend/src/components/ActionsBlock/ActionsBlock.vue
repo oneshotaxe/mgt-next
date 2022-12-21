@@ -55,6 +55,8 @@ type Props = {
     <v-spacer />
 
     <h2 v-if="title">{{ title }}</h2>
+
+    <slot />
   </div>
 </template>
 

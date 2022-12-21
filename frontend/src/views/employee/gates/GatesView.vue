@@ -18,10 +18,18 @@ onMounted(table.fetch);
   <div>
     <h1>{{ t('gates.listTitle') }}</h1>
 
-    <actions-block :actions="actions" reverse />
+    <actions-block :actions="actions" reverse class="pt-8">
+      <v-text-field
+        v-model="table.search"
+        hide-details
+        prepend-inner-icon="mdi-magnify"
+        density="compact"
+      />
+    </actions-block>
 
     <data-table
       v-model:page="table.page"
+      v-model:order="table.order"
       :columns="columns"
       :rows="table.rows"
       :loading="table.loading"

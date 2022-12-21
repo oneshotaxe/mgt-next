@@ -9,8 +9,23 @@ const props = withDefaults(defineProps<Props>(), {
   pageSize: 10,
   serverTotal: 0,
 });
+const emit = defineEmits(['update:order', 'update:page', 'row-click']);
 
 const length = computed(() => Math.ceil(props.serverTotal / props.pageSize));
+
+const orderKey = computed(() => props.order?.split(' ')?.[0]);
+
+const orderDir = computed(() => props.order?.split(' ')?.[1]);
+
+const changeSort = (key?: string) => {
+  if (!key) return;
+
+  if (key === orderKey.value) {
+    emit('update:order', `${key} ${orderDir.value === 'asc' ? 'desc' : 'asc'}`);
+    return;
+  }
+  emit('update:order', `${key} asc`);
+};
 
 const randomWidth = () => `${Math.random() * 50 + 50}%`;
 
@@ -30,6 +45,7 @@ type Props = {
   loading: boolean;
   pageSize: number;
   page: number;
+  order?: string;
   itemKey?: string;
   serverTotal: number;
 };
@@ -41,7 +57,12 @@ type Props = {
       <thead>
         <tr>
           <th width="72px"></th>
-          <th v-for="column in columns" :key="column.key">
+          <th
+            v-for="column in columns"
+            :key="column.key"
+            :class="{ 'orderable-column': !!column.orderKey }"
+            @click="changeSort(column.orderKey)"
+          >
             {{ column.title }}
           </th>
         </tr>
@@ -98,3 +119,10 @@ type Props = {
     </div>
   </div>
 </template>
+
+<style lang="scss">
+.orderable-column {
+  text-decoration: underline;
+  cursor: pointer;
+}
+</style>

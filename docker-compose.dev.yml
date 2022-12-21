@@ -1,0 +1,30 @@
+version: "3"
+
+services:
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8000:8000"
+    restart: always
+    depends_on:
+      - postgres
+  postgres:
+    image: "postgres"
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres/data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=mgt
+      - POSTGRES_PASSWORD=Ll1FGMU8
+      - POSTGRES_DB=mgt
+    restart: always 
+  nginx:
+    build: ./frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    restart: always 

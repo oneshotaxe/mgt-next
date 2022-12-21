@@ -40,15 +40,18 @@ func (dc *DriversController) GetAll(c *fiber.Ctx) error {
 	var rows []models.Driver
 	tx := dc.db.Model(&models.Driver{})
 	if dto.ColumnID != nil {
-		tx.Where("column_id = ?", dto.ColumnID)
+		tx.Where("drivers.column_id = ?", dto.ColumnID)
 	}
 	if dto.BusID != nil {
-		tx.Where("bus_id = ?", dto.BusID)
+		tx.Where("drivers.bus_id = ?", dto.BusID)
 	}
 	if len(dto.Search) != 0 {
-		tx.Where("Num LIKE ?", "%"+dto.Search+"%")
+		tx.Where("drivers.num LIKE ?", "%"+dto.Search+"%")
+		tx.Or("drivers.full_name LIKE ?", "%"+dto.Search+"%")
+		tx.Or("buses.num LIKE ?", "%"+dto.Search+"%")
 	}
 	err := tx.
+		Joins("left join buses on drivers.bus_id = buses.id").
 		Count(&count).
 		Preload("Column").
 		Preload("Bus").

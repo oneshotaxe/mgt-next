@@ -1,4 +1,5 @@
 import { ref, reactive, watch, type Ref } from 'vue';
+import debounce from 'lodash/debounce';
 
 const useDataTable = <T>(options: Options<T>) => {
   const loading = ref(false);
@@ -27,7 +28,10 @@ const useDataTable = <T>(options: Options<T>) => {
       .finally(() => (loading.value = false));
   };
 
-  watch([page, pageSize, order, search], fetch);
+  const debounsedFetch = debounce(fetch, 200);
+
+  watch([search], debounsedFetch);
+  watch([page, pageSize, order], fetch);
 
   return reactive({
     loading,

@@ -106,20 +106,24 @@ const useListModule = (columnId: ComputedRef<number>) => {
     },
     {
       key: 'bus',
+      orderKey: 'buses.num',
       title: t('fields.bus'),
       format: (value) => value.num,
       to: (value) => ROUTES[NAMES.EMPLOYEE_BUS_VIEW](columnId.value, value.id),
     },
     {
       key: 'num',
+      orderKey: 'num',
       title: t('fields.num'),
     },
     {
       key: 'fullName',
+      orderKey: 'full_name',
       title: t('fields.fullName'),
     },
     {
       key: 'createdAt',
+      orderKey: 'created_at',
       title: t('fields.createdAt'),
       format: formatDateTime,
     },

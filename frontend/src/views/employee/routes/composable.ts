@@ -100,10 +100,12 @@ const useListModule = (columnId: ComputedRef<number>) => {
     },
     {
       key: 'num',
+      orderKey: 'num',
       title: t('fields.num'),
     },
     {
       key: 'createdAt',
+      orderKey: 'created_at',
       title: t('fields.createdAt'),
       format: formatDateTime,
     },

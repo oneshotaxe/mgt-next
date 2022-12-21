@@ -2,6 +2,7 @@
 import { computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
+import type { Driver } from '@/api';
 import { ActionsBlock, DataTable } from '@/components';
 import { useListModule } from './composable';
 
@@ -18,16 +19,24 @@ onMounted(table.fetch);
   <div>
     <h1>{{ t('drivers.listTitle') }}</h1>
 
-    <actions-block :actions="actions" reverse />
+    <actions-block :actions="actions" reverse class="pt-8">
+      <v-text-field
+        v-model="table.search"
+        hide-details
+        prepend-inner-icon="mdi-magnify"
+        density="compact"
+      />
+    </actions-block>
 
     <data-table
       v-model:page="table.page"
+      v-model:order="table.order"
       :columns="columns"
       :rows="table.rows"
       :loading="table.loading"
       :page-size="table.pageSize"
       :server-total="table.total"
-      @row-click="(row) => onRowClick(row.id)"
+      @row-click="(row: Driver) => onRowClick(row.id!)"
     />
   </div>
 </template>

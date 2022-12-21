@@ -103,10 +103,12 @@ const useListModule = () => {
     },
     {
       key: 'title',
+      orderKey: 'title',
       title: t('fields.title'),
     },
     {
       key: 'createdAt',
+      orderKey: 'created_at',
       title: t('fields.createdAt'),
       format: formatDateTime,
     },
