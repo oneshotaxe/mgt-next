@@ -100,7 +100,7 @@ const useListModule = () => {
       key: 'user',
       title: t('fields.user'),
       format: (value) => value.nick,
-      to: (value) => ROUTES[NAMES.ADMIN_COLUMN_VIEW](value.id),
+      to: (value) => ROUTES[NAMES.ADMIN_USER_VIEW](value.id),
     },
     {
       key: 'title',
@@ -166,7 +166,7 @@ const useViewModule = (id: ComputedRef<number>) => {
       key: 'user',
       title: t('fields.user'),
       format: (value) => value.nick,
-      to: (value) => ROUTES[NAMES.ADMIN_COLUMN_VIEW](value.id),
+      to: (value) => ROUTES[NAMES.ADMIN_USER_VIEW](value.id),
     },
     {
       key: 'title',
