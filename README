@@ -8,6 +8,7 @@ git push
 
 // Remote
 cd mgt-next
+docker compose down
 docker compose up -d --build
 
 // DEVELOPMENT
