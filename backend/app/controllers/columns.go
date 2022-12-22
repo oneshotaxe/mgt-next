@@ -160,9 +160,8 @@ func (cc *ColumnsController) Create(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(err.Error())
 	}
 
-	userID := c.Locals("id").(uint)
 	isAdmin := c.Locals("isAdmin").(bool)
-	if !isAdmin && userID != *dto.UserID {
+	if !isAdmin {
 		return c.SendStatus(fiber.StatusForbidden)
 	}
 

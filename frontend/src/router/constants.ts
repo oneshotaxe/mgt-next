@@ -6,14 +6,18 @@ enum NAMES {
   ADMIN = 'admin',
   ADMIN_DASHBOARD = 'admin-dashboard',
 
-  ADMIN_USER_LIST = 'users',
-  ADMIN_USER_VIEW = 'user',
-  ADMIN_USER_CREATOR = 'user-creator',
-  ADMIN_USER_EDITOR = 'user-editor',
+  ADMIN_USER_LIST = 'admin-users',
+  ADMIN_USER_VIEW = 'admin-user',
+  ADMIN_USER_CREATOR = 'admin-user-creator',
+  ADMIN_USER_EDITOR = 'admin-user-editor',
+
+  ADMIN_COLUMN_LIST = 'admin-columns',
+  ADMIN_COLUMN_VIEW = 'admin-column',
+  ADMIN_COLUMN_CREATOR = 'admin-column-creator',
+  ADMIN_COLUMN_EDITOR = 'admin-column-editor',
 
   EMPLOYEE_COLUMN_LIST = 'employee-columns',
   EMPLOYEE_COLUMN_VIEW = 'employee-column',
-  EMPLOYEE_COLUMN_CREATOR = 'employee-column-creator',
   EMPLOYEE_COLUMN_EDITOR = 'employee-column-editor',
 
   EMPLOYEE_BUS_LIST = 'employee-buses',
@@ -48,9 +52,13 @@ const ROUTES = {
   [NAMES.ADMIN_USER_CREATOR]: simpleRoute(NAMES.ADMIN_USER_CREATOR),
   [NAMES.ADMIN_USER_EDITOR]: idRoute(NAMES.ADMIN_USER_EDITOR),
 
+  [NAMES.ADMIN_COLUMN_LIST]: simpleRoute(NAMES.ADMIN_COLUMN_LIST),
+  [NAMES.ADMIN_COLUMN_VIEW]: idRoute(NAMES.ADMIN_COLUMN_VIEW),
+  [NAMES.ADMIN_COLUMN_CREATOR]: simpleRoute(NAMES.ADMIN_COLUMN_CREATOR),
+  [NAMES.ADMIN_COLUMN_EDITOR]: idRoute(NAMES.ADMIN_COLUMN_EDITOR),
+
   [NAMES.EMPLOYEE_COLUMN_LIST]: simpleRoute(NAMES.EMPLOYEE_COLUMN_LIST),
   [NAMES.EMPLOYEE_COLUMN_VIEW]: idRoute(NAMES.EMPLOYEE_COLUMN_VIEW),
-  [NAMES.EMPLOYEE_COLUMN_CREATOR]: simpleRoute(NAMES.EMPLOYEE_COLUMN_CREATOR),
   [NAMES.EMPLOYEE_COLUMN_EDITOR]: idRoute(NAMES.EMPLOYEE_COLUMN_EDITOR),
 
   [NAMES.EMPLOYEE_BUS_LIST]: idRoute(NAMES.EMPLOYEE_BUS_LIST, 'columnId'),

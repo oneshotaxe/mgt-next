@@ -15,6 +15,7 @@ const drawer = ref(true);
 const menu = ref([
   { key: 'dashboard', to: ROUTES[NAMES.ADMIN_DASHBOARD], title: t('dashboard.title'), exact: true },
   { key: 'users', to: ROUTES[NAMES.ADMIN_USER_LIST], title: t('users.listTitle') },
+  { key: 'columns', to: ROUTES[NAMES.ADMIN_COLUMN_LIST], title: t('columns.listTitle') },
 ]);
 
 const onClickLogout = () => logout().then(() => router.push(ROUTES[NAMES.AUTH]));

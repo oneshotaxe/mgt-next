@@ -25,11 +25,6 @@ const router = createRouter({
           component: () => import('@/views/employee/columns/ColumnsView.vue'),
         },
         {
-          path: 'columns/create',
-          name: NAMES.EMPLOYEE_COLUMN_CREATOR,
-          component: () => import('@/views/employee/columns/ColumnEditor.vue'),
-        },
-        {
           path: 'columns/:id',
           name: NAMES.EMPLOYEE_COLUMN_VIEW,
           component: () => import('@/views/employee/columns/ColumnView.vue'),
@@ -157,6 +152,27 @@ const router = createRouter({
           path: 'users/:id/edit',
           name: NAMES.ADMIN_USER_EDITOR,
           component: () => import('@/views/admin/users/UserEditor.vue'),
+        },
+        // Колонны
+        {
+          path: 'columns',
+          name: NAMES.ADMIN_COLUMN_LIST,
+          component: () => import('@/views/admin/columns/ColumnsView.vue'),
+        },
+        {
+          path: 'columns/create',
+          name: NAMES.ADMIN_COLUMN_CREATOR,
+          component: () => import('@/views/admin/columns/ColumnEditor.vue'),
+        },
+        {
+          path: 'columns/:id',
+          name: NAMES.ADMIN_COLUMN_VIEW,
+          component: () => import('@/views/admin/columns/ColumnView.vue'),
+        },
+        {
+          path: 'columns/:id/edit',
+          name: NAMES.ADMIN_COLUMN_EDITOR,
+          component: () => import('@/views/admin/columns/ColumnEditor.vue'),
         },
       ],
     },

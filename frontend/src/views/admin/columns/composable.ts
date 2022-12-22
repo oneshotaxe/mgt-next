@@ -11,18 +11,18 @@ import { formatDateTime } from '@/utils';
 import { useAuthStore } from '@/stores/auth';
 
 const useEditorModule = (id: ComputedRef<number>) => {
-  const auth = useAuthStore();
   const { t } = useI18n();
   const router = useRouter();
   const dialogs = injectDialog();
   const alerts = injectAlert();
 
-  const viewRoute = (id: number) => ROUTES[NAMES.EMPLOYEE_COLUMN_VIEW](id);
-  const cancelRoute = computed(() => viewRoute(id.value));
+  const listRoute = computed(() => ROUTES[NAMES.ADMIN_COLUMN_LIST]);
+  const viewRoute = (id: number) => ROUTES[NAMES.ADMIN_COLUMN_VIEW](id);
+  const cancelRoute = computed(() => (id.value ? viewRoute(id.value) : listRoute.value));
 
   const loading = ref(false);
   const model = reactive<Column>({
-    userId: auth.user?.id,
+    userId: undefined,
     title: '',
   });
   const rules = computed(() => ({
@@ -55,11 +55,13 @@ const useEditorModule = (id: ComputedRef<number>) => {
     }
     return dialogs.confirm(t('dialogs.saveConfirm'), () => {
       loading.value = true;
-      return api.columns._id
-        .put(id.value, model)
-        .then(() => {
+      const promise = id.value
+        ? api.columns._id.put(id.value, model).then(() => id.value)
+        : api.columns._id.post(model);
+      return promise
+        .then((id) => {
           alerts.success(t('alerts.saveSuccess'));
-          return router.push(viewRoute(id.value));
+          return router.push(viewRoute(id));
         })
         .finally(() => {
           loading.value = false;
@@ -90,9 +92,16 @@ const useListModule = () => {
   const { t } = useI18n();
   const router = useRouter();
 
-  const viewRoute = (id: number) => ROUTES[NAMES.EMPLOYEE_COLUMN_VIEW](id);
+  const creatorRoute = computed(() => ROUTES[NAMES.ADMIN_COLUMN_CREATOR]);
+  const viewRoute = (id: number) => ROUTES[NAMES.ADMIN_COLUMN_VIEW](id);
 
   const columns = ref<DataTableColumn[]>([
+    {
+      key: 'user',
+      title: t('fields.user'),
+      format: (value) => value.nick,
+      to: (value) => ROUTES[NAMES.ADMIN_COLUMN_VIEW](value.id),
+    },
     {
       key: 'title',
       orderKey: 'title',
@@ -116,10 +125,17 @@ const useListModule = () => {
     page: 1,
     pageSize: 10,
     fetch: api.columns.get,
-    additionalParams: () => ({ userId: auth.user?.id }),
   });
 
-  const actions = computed<ActionsBlockItem[]>(() => []);
+  const actions = computed<ActionsBlockItem[]>(() => [
+    {
+      key: 'create',
+      to: creatorRoute.value,
+      text: t('actions.create'),
+      type: 'PRIMARY',
+      prependIcon: 'mdi-plus',
+    },
+  ]);
 
   const onRowClick = (id: number) => {
     return router.push(viewRoute(id));
@@ -134,16 +150,24 @@ const useListModule = () => {
 };
 
 const useViewModule = (id: ComputedRef<number>) => {
-  const auth = useAuthStore();
   const { t } = useI18n();
+  const router = useRouter();
+  const dialogs = injectDialog();
+  const alerts = injectAlert();
 
-  const editorRoute = computed(() => ROUTES[NAMES.EMPLOYEE_COLUMN_EDITOR](id.value));
-  const listRoute = computed(() => ROUTES[NAMES.EMPLOYEE_COLUMN_LIST]);
+  const editorRoute = computed(() => ROUTES[NAMES.ADMIN_COLUMN_EDITOR](id.value));
+  const listRoute = computed(() => ROUTES[NAMES.ADMIN_COLUMN_LIST]);
 
   const loading = ref(false);
-  const model = reactive<Column>({ userId: auth.user?.id, title: '' });
+  const model = reactive<Column>({ userId: undefined, title: '' });
 
   const fields = ref<DataBlockField[]>([
+    {
+      key: 'user',
+      title: t('fields.user'),
+      format: (value) => value.nick,
+      to: (value) => ROUTES[NAMES.ADMIN_COLUMN_VIEW](value.id),
+    },
     {
       key: 'title',
       title: t('fields.title'),
@@ -169,12 +193,34 @@ const useViewModule = (id: ComputedRef<number>) => {
         type: 'PRIMARY',
       },
       {
+        key: 'remove',
+        text: t('actions.remove'),
+        click: remove,
+        type: 'ERROR',
+        loading: loading.value,
+      },
+      {
         key: 'cancel',
         text: t('actions.toList'),
         to: listRoute.value,
       },
     ];
   });
+
+  const remove = () => {
+    return dialogs.confirm(t('dialogs.removeConfirm'), () => {
+      loading.value = true;
+      return api.columns._id
+        .delete(id.value)
+        .then(() => {
+          alerts.success(t('alerts.removeSuccess'));
+          return router.push(listRoute.value);
+        })
+        .finally(() => {
+          loading.value = false;
+        });
+    });
+  };
 
   const fetch = () => {
     loading.value = true;
