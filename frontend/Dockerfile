@@ -13,6 +13,6 @@ RUN npm run build
 FROM nginx:alpine
 
 COPY prod.conf /etc/nginx/nginx.conf
-COPY --from=build ["/app/dist/", "/dist/"]
+COPY --from=build /app/dist /dist
 
 CMD ["nginx", "-g", "daemon off;"]
