@@ -1,18 +1,14 @@
-# Стадия 1 - Собираем фронтенд-приложение
-FROM node:16-alpine as build
-
-WORKDIR /app/
-
-COPY package*.json  ./
+# build stage
+FROM node:lts-alpine as build-stage
+WORKDIR /app
+COPY package*.json ./
 RUN npm install
-
-COPY . ./
+COPY . .
 RUN npm run build
 
-# Стадия 2 - nginx & статика фронтенда
-FROM nginx:alpine
-
+# production stage
+FROM nginx:stable-alpine as production-stage
+COPY --from=build-stage /app/dist /etc/nginx/html
 COPY prod.conf /etc/nginx/nginx.conf
-COPY --from=build /app/dist /dist
-
+EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
