@@ -1,18 +1,35 @@
 package main
 
 import (
+	"fmt"
 	"mgt/app/controllers"
 	"mgt/pkg/middleware"
 	"mgt/platform"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/session"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+
+	postgresStorage "github.com/gofiber/storage/postgres"
 )
 
 func main() {
-	dsn := "host=postgres user=mgt password=Ll1FGMU8 dbname=mgt port=5432 sslmode=disable"
+	dbHost := "postgres"
+	dbUser := "mgt"
+	dbPassword := "Ll1FGMU8"
+	dbName := "mgt"
+	dbPort := "5432"
+	dbSslMode := "disable"
+	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=%s",
+		dbHost,
+		dbUser,
+		dbPassword,
+		dbName,
+		dbPort,
+		dbSslMode,
+	)
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect database")
@@ -21,7 +38,20 @@ func main() {
 	platform.Migrate(db)
 
 	app := fiber.New()
-	store := session.New()
+	store := session.New(session.Config{
+		Storage: postgresStorage.New(postgresStorage.Config{
+			ConnectionURI: fmt.Sprintf("postgresql://%s:%s@%s:%s/%s?sslmode=%s",
+				dbUser,
+				dbPassword,
+				dbHost,
+				dbPort,
+				dbName,
+				dbSslMode,
+			),
+			Reset:      false,
+			GCInterval: 10 * time.Second,
+		}),
+	})
 
 	app.Use("/api", middleware.ProvideUserInfo(store, db))
 

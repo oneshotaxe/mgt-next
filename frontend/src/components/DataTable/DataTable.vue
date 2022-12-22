@@ -12,9 +12,13 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits(['update:order', 'update:page', 'row-click']);
 
 const length = computed(() => Math.ceil(props.serverTotal / props.pageSize));
+const rowsInfoStart = computed(() => (props.page - 1) * props.pageSize + 1);
+const rowsInfoEnd = computed(() => Math.min(props.page * props.pageSize, props.serverTotal));
+const rowsInfo = computed(
+  () => `${rowsInfoStart.value} - ${rowsInfoEnd.value} из ${props.serverTotal}`
+);
 
 const orderKey = computed(() => props.order?.split(' ')?.[0]);
-
 const orderDir = computed(() => props.order?.split(' ')?.[1]);
 
 const changeSort = (key?: string) => {
@@ -107,7 +111,8 @@ type Props = {
       </tbody>
     </v-table>
 
-    <div class="d-flex justify-end">
+    <div class="d-flex align-center justify-end">
+      <div class="pr-4">{{ rowsInfo }}</div>
       <v-pagination
         dense
         density="comfortable"

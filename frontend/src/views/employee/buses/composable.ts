@@ -96,19 +96,15 @@ const useListModule = (columnId: ComputedRef<number>) => {
 
   const columns = ref<DataTableColumn[]>([
     {
-      key: 'id',
-      title: t('fields.id'),
+      key: 'num',
+      orderKey: 'num',
+      title: t('fields.num'),
     },
     {
       key: 'gate',
       title: t('fields.gate'),
       format: (value) => value.num,
       to: (value) => ROUTES[NAMES.EMPLOYEE_GATE_VIEW](columnId.value, value.id),
-    },
-    {
-      key: 'num',
-      orderKey: 'num',
-      title: t('fields.num'),
     },
     {
       key: 'createdAt',
@@ -172,18 +168,14 @@ const useViewModule = (columnId: ComputedRef<number>, id: ComputedRef<number>) =
 
   const fields = ref<DataBlockField[]>([
     {
-      key: 'id',
-      title: t('fields.id'),
+      key: 'num',
+      title: t('fields.num'),
     },
     {
       key: 'gate',
       title: t('fields.gate'),
       format: (value) => value.num,
       to: (value) => ROUTES[NAMES.EMPLOYEE_GATE_VIEW](columnId.value, value.id),
-    },
-    {
-      key: 'num',
-      title: t('fields.num'),
     },
     {
       key: 'createdAt',

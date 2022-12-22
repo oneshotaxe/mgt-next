@@ -104,19 +104,15 @@ const useListModule = (columnId: ComputedRef<number>) => {
 
   const columns = ref<DataTableColumn[]>([
     {
-      key: 'id',
-      title: t('fields.id'),
+      key: 'num',
+      orderKey: 'num',
+      title: t('fields.num'),
     },
     {
       key: 'route',
       title: t('fields.route'),
       format: (value) => value.num,
       to: (value) => ROUTES[NAMES.EMPLOYEE_ROUTE_VIEW](columnId.value, value.id),
-    },
-    {
-      key: 'num',
-      orderKey: 'num',
-      title: t('fields.num'),
     },
     {
       key: 'createdAt',
@@ -191,18 +187,14 @@ const useViewModule = (columnId: ComputedRef<number>, id: ComputedRef<number>) =
 
   const fields = ref<DataBlockField[]>([
     {
-      key: 'id',
-      title: t('fields.id'),
+      key: 'num',
+      title: t('fields.num'),
     },
     {
       key: 'route',
       title: t('fields.route'),
       format: (value) => value.num,
       to: (value) => ROUTES[NAMES.EMPLOYEE_ROUTE_VIEW](columnId.value, value.id),
-    },
-    {
-      key: 'num',
-      title: t('fields.num'),
     },
     {
       key: 'createdAt',

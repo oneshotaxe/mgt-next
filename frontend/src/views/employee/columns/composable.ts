@@ -98,10 +98,6 @@ const useListModule = () => {
 
   const columns = ref<DataTableColumn[]>([
     {
-      key: 'id',
-      title: t('fields.id'),
-    },
-    {
       key: 'title',
       orderKey: 'title',
       title: t('fields.title'),
@@ -163,10 +159,6 @@ const useViewModule = (id: ComputedRef<number>) => {
   const model = reactive<Column>({ userId: auth.user?.id, title: '' });
 
   const fields = ref<DataBlockField[]>([
-    {
-      key: 'id',
-      title: t('fields.id'),
-    },
     {
       key: 'title',
       title: t('fields.title'),

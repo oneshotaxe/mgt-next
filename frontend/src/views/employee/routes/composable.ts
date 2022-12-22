@@ -95,10 +95,6 @@ const useListModule = (columnId: ComputedRef<number>) => {
 
   const columns = ref<DataTableColumn[]>([
     {
-      key: 'id',
-      title: t('fields.id'),
-    },
-    {
       key: 'num',
       orderKey: 'num',
       title: t('fields.num'),
@@ -164,10 +160,6 @@ const useViewModule = (columnId: ComputedRef<number>, id: ComputedRef<number>) =
   const model = reactive<Route>({ columnId: columnId.value, num: '' });
 
   const fields = ref<DataBlockField[]>([
-    {
-      key: 'id',
-      title: t('fields.id'),
-    },
     {
       key: 'num',
       title: t('fields.num'),
