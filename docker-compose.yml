@@ -2,7 +2,9 @@ version: "3"
 
 services:
   backend:
-    build: ./backend
+    build:
+      context: backend
+      dockerfile: Dockerfile
     restart: always
     depends_on:
       - postgres
@@ -18,7 +20,9 @@ services:
       - POSTGRES_DB=mgt
     restart: always 
   nginx:
-    build: ./frontend
+    build:
+      context: frontend
+      dockerfile: Dockerfile
     ports:
       - "80:80"
     depends_on:
