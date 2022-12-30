@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import get from 'lodash/get';
 import debounce from 'lodash/debounce';
 
@@ -38,7 +38,7 @@ const makeSearch = async (searchValue: string) => {
     isLast.value;
   }
   const rows = props.filter ? data.rows.filter(props.filter) : data.rows;
-  items.value = rows;
+  items.value = props.mapper ? rows.map(props.mapper) : rows;
 
   loading.value = false;
 };
@@ -93,6 +93,7 @@ type Props = {
     search: string;
   }) => Promise<{ total: number; rows: unknown[] }>;
   filter?: (item: any) => boolean;
+  mapper?: (item: any) => any;
 };
 </script>
 

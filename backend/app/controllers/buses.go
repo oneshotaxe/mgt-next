@@ -50,6 +50,7 @@ func (bc *BusesController) GetAll(c *fiber.Ctx) error {
 		Count(&count).
 		Preload("Column").
 		Preload("Gate").
+		Preload("Gate.Route").
 		Limit(dto.Limit).
 		Offset(dto.Offset).
 		Order(dto.Order).
@@ -81,6 +82,7 @@ func (bc *BusesController) Get(c *fiber.Ctx) error {
 	result := bc.db.
 		Preload("Column").
 		Preload("Gate").
+		Preload("Gate.Route").
 		Where("id = ?", id).
 		First(&row)
 	if result.Error != nil {

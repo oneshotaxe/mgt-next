@@ -103,7 +103,7 @@ const useListModule = (columnId: ComputedRef<number>) => {
     {
       key: 'gate',
       title: t('fields.gate'),
-      format: (value) => value.num,
+      format: (value) => `${value.route?.num} / ${value.num}`,
       to: (value) => ROUTES[NAMES.EMPLOYEE_GATE_VIEW](columnId.value, value.id),
     },
     {
@@ -174,7 +174,7 @@ const useViewModule = (columnId: ComputedRef<number>, id: ComputedRef<number>) =
     {
       key: 'gate',
       title: t('fields.gate'),
-      format: (value) => value.num,
+      format: (value) => `${value.route?.num} / ${value.num}`,
       to: (value) => ROUTES[NAMES.EMPLOYEE_GATE_VIEW](columnId.value, value.id),
     },
     {

@@ -2,7 +2,7 @@
 import { computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
-import api from '@/api';
+import api, { type Gate } from '@/api';
 import { ActionsBlock, ServerAutocomplete } from '@/components';
 import { extractErrors } from '@/utils';
 import { useEditorModule } from './composable';
@@ -18,6 +18,8 @@ const { loading, model, v$, actions, fetch, save } = useEditorModule(columnId, i
 
 const fetchGates = (params: { limit: number; offset: number; search: string }) =>
   api.gates.get({ ...params, columnId: columnId.value });
+
+const gateMapper = (gate: Gate) => ({ ...gate, num: `${gate.route?.num} / ${gate.num}` });
 
 onMounted(() => {
   if (id.value) {
@@ -46,6 +48,7 @@ onMounted(() => {
           v-model="model.gate"
           v-model:model-value-id="model.gateId"
           :fetch="fetchGates"
+          :mapper="gateMapper"
           :disabled="loading"
           :label="t('fields.gate')"
           item-title="num"
