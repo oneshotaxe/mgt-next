@@ -123,6 +123,7 @@ func (bc *BusesController) Update(c *fiber.Ctx) error {
 		ID       uint   `query:"id"`
 		ColumnID *uint  `json:"columnId"`
 		Num      string `json:"num"`
+		GateID   *uint  `json:"gateId"`
 	}
 	if err := c.BodyParser(&dto); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(err.Error())
@@ -143,6 +144,7 @@ func (bc *BusesController) Update(c *fiber.Ctx) error {
 		Updates(map[string]interface{}{
 			"ColumnID": dto.ColumnID,
 			"Num":      dto.Num,
+			"GateID":   dto.GateID,
 		}).
 		Error
 	if err != nil {
@@ -156,6 +158,7 @@ func (bc *BusesController) Create(c *fiber.Ctx) error {
 	var dto struct {
 		ColumnID *uint  `json:"columnId"`
 		Num      string `json:"num"`
+		GateID   *uint  `json:"gateId"`
 	}
 	if err := c.BodyParser(&dto); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(err.Error())
@@ -170,6 +173,7 @@ func (bc *BusesController) Create(c *fiber.Ctx) error {
 	row := models.Bus{
 		ColumnID: dto.ColumnID,
 		Num:      dto.Num,
+		GateID:   dto.GateID,
 	}
 	err := bc.db.Create(&row).Error
 	if err != nil {
