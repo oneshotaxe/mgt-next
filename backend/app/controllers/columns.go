@@ -1,8 +1,12 @@
 package controllers
 
 import (
+	"fmt"
 	"mgt/app/models"
 	"mgt/pkg/utils"
+	"strconv"
+	"strings"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
@@ -223,14 +227,20 @@ func (cc *ColumnsController) Journal(c *fiber.Ctx) error {
 		return c.SendStatus(fiber.StatusForbidden)
 	}
 
+	parts := strings.Split(month, "-")
+	y, _ := strconv.Atoi(parts[0])
+	m, _ := strconv.Atoi(parts[1])
+	count := time.Date(y, time.Month(m)+1, 0, 0, 0, 0, 0, time.UTC).Day()
+	firstDayInMonth := fmt.Sprintf("%s-%v", month, "01")
+
 	var buses []models.Bus
 	if err := cc.db.Where("column_id = ?", id).Preload("Drivers").Preload("Gate").Preload("Gate.Route").Order("num asc").Find(&buses).Error; err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
 	}
 
-	journal := models.Journal{PageSize: 5, Weekdays: []string{}}
+	journal := models.Journal{PageSize: 5, Weekdays: utils.GetWeekendDays(firstDayInMonth, count)}
 	for _, bus := range buses {
-		journal.PushBus(&bus, month)
+		journal.PushBus(&bus, firstDayInMonth, count)
 	}
 
 	return c.JSON(journal)

@@ -1,10 +1,7 @@
 package models
 
 import (
-	"fmt"
 	"mgt/pkg/utils"
-	"strconv"
-	"strings"
 	"time"
 )
 
@@ -28,11 +25,7 @@ type Journal struct {
 	Weekdays []string      `json:"-"`
 }
 
-func (j *Journal) PushBus(bus *Bus, month string) {
-	parts := strings.Split(month, "-")
-	y, _ := strconv.Atoi(parts[0])
-	m, _ := strconv.Atoi(parts[1])
-	count := time.Date(y, time.Month(m)+1, 0, 0, 0, 0, 0, time.UTC).Day()
+func (j *Journal) PushBus(bus *Bus, date string, count int) {
 	if j.IsEmpty() {
 		j.PushPage()
 	}
@@ -50,7 +43,7 @@ func (j *Journal) PushBus(bus *Bus, month string) {
 			ShortName: utils.ShortifyName(d.FullName),
 			FullName:  d.FullName,
 			Num:       d.Num,
-			Statuses:  d.StatusesByDate(fmt.Sprintf("%s-%v", month, "01"), count),
+			Statuses:  d.StatusesByDate(date, count),
 		})
 	}
 
