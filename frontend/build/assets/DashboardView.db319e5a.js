@@ -1,0 +1,1 @@
+import{o as n,c as s}from"./index.ea25dc33.js";const a=(e,t)=>{const c=e.__vccOpts||e;for(const[o,r]of t)c[o]=r;return c},_={};function f(e,t){return n(),s("h1",null,"\u0414\u0430\u0448\u0431\u043E\u0440\u0434")}const p=a(_,[["render",f]]);export{p as default};

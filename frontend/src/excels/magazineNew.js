@@ -274,8 +274,8 @@ function fillLeftDriverInfo(cursor, driver) {
     graphicName = `${graphicName} (${graphicName[0]}раб. / ${graphicName[1]}вых.)`;
   }
   cursor.getCell(4, 1).value = graphicName;
-  cursor.getCell(1, 2).value = driver.num.slice(0, 4);
-  cursor.getCell(2, 2).value = driver.num.slice(4);
+  cursor.getCell(1, 2).value = driver.num.slice(0, 3);
+  cursor.getCell(2, 2).value = driver.num.slice(3);
 
   for (let i = 0; i < 12; i++) {
     cursor.getCell(1, i + 4).value = driver.statuses[i].value;
