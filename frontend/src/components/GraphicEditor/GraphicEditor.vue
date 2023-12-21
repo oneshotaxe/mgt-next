@@ -69,12 +69,19 @@ function removeItems(graphic: Graphic) {
 }
 
 const workStatuses = ['Р', '1', '2'];
+const weekendStatuses = ['В', 'О']
 
 function rollItem(graphic: Graphic, index: number) {
   const newGraphic = cloneDeep(graphic);
   const curStatus = newGraphic.items[index];
-  const nextStatus = _nextItemInArr(curStatus, workStatuses);
-  newGraphic.items[index] = nextStatus;
+  let nextStatus: string
+  if (workStatuses.includes(curStatus)) {
+    nextStatus = _nextItemInArr(curStatus, workStatuses);
+    newGraphic.items[index] = nextStatus;
+  } else if (weekendStatuses.includes(curStatus)) {
+    nextStatus = _nextItemInArr(curStatus, weekendStatuses);
+    newGraphic.items[index] = nextStatus;
+  }
   return newGraphic;
 }
 
@@ -130,12 +137,8 @@ type Props = {
     <div v-if="modelValue" class="ge-statuses">
       <div
         v-for="(item, i) in modelValue.items"
-        class="ge-statuses__item"
-        :class="{
-          'ge-statuses__item--clickable': item !== 'В',
-          'ge-statuses__item--disabled': item === 'В',
-        }"
-        @click="item !== 'В' && onItemClick(i)"
+        class="ge-statuses__item ge-statuses__item--clickable"
+        @click="onItemClick(i)"
       >
         {{ item }}
       </div>
