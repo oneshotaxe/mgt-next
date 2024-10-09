@@ -238,7 +238,7 @@ function fillBusInfo(cursor, bus) {
 
 function fillDriverInfo(cursor, driver) {
   cursor.getCell(1, 1).value = driver.shortName;
-  cursor.getCell(1, 2).value = driver.num.slice(3);
+  cursor.getCell(1, 2).value = driver.num;
   const graphicRow = driver.graphic && '' + driver.graphic.name;
   cursor.getCell(2, 1).value =
     graphicRow &&
