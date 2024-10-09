@@ -15,3 +15,5 @@ docker compose up -d --build
 
 docker-compose -p mgt_dev -f docker-compose.dev.yml up -d --build
 cd ./frontend | npm run dev
+
+#?L=3+:UiHjp
