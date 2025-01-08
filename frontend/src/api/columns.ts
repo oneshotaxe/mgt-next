@@ -1,5 +1,5 @@
-import axios from 'axios';
-import type { PublicUser } from './users';
+import axios from "axios";
+import type { PublicUser } from "./users";
 
 const columns = {
   get: (
@@ -14,7 +14,7 @@ const columns = {
       offset: 0,
     }
   ) => {
-    params.order = params.order || 'created_at desc';
+    params.order = params.order || "created_at desc";
     return axios
       .get<{
         rows: Column[];
@@ -25,11 +25,15 @@ const columns = {
 
   _id: {
     get: (id: number) => {
-      return axios.get<{ row: Column }>(`/api/v1/columns/${id}`).then((res) => res.data.row);
+      return axios
+        .get<{ row: Column }>(`/api/v1/columns/${id}`)
+        .then((res) => res.data.row);
     },
 
     post: (body: Column) => {
-      return axios.post<{ id: number }>('/api/v1/columns', body).then((res) => res.data.id);
+      return axios
+        .post<{ id: number }>("/api/v1/columns", body)
+        .then((res) => res.data.id);
     },
 
     put: (id: number, body: Column) => {
@@ -42,12 +46,20 @@ const columns = {
 
     journal: (id: number, month: string) => {
       return axios
-        .get<{ row: Column }>(`/api/v1/columns/${id}/journal`, { params: { month } })
+        .get<{ row: Column }>(`/api/v1/columns/${id}/journal`, {
+          params: { month },
+        })
         .then((res) => res.data);
     },
 
     agreement: (id: number) => {
-      return axios.get<{ row: Column }>(`/api/v1/columns/${id}/agreement`).then((res) => res.data);
+      return axios
+        .get<{ row: Column }>(`/api/v1/columns/${id}/agreement`)
+        .then((res) => res.data);
+    },
+
+    dump: (id: number) => {
+      return axios.get(`/api/v1/columns/${id}/dump`).then((res) => res.data);
     },
 
     upload: (id: number, body: unknown) => {
