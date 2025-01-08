@@ -7,7 +7,7 @@ import FileSaver from 'file-saver';
 import api from '@/api';
 import { ActionsBlock, DataBlock } from '@/components';
 import { ROUTES, NAMES } from '@/router';
-import { buildAgreement, buildMagazine, buildMagazineMini, buildMagazineNew } from '@/excels';
+import { buildAgreement, buildDump, buildMagazine, buildMagazineMini, buildMagazineNew } from '@/excels';
 import { injectDialog } from '@/composable';
 import { useViewModule } from './composable';
 import DialogFile from '@/components/DialogFile.vue';
@@ -83,6 +83,14 @@ const downloadAgreement = async () => {
   });
 };
 
+const downloadDump = async () => {
+  const resDump = await api.columns._id.dump(id.value);
+  console.log(resDump)
+  const resTemplate = await axios.get('/dump.xlsx', { responseType: 'arraybuffer' });
+  const buf = await buildDump(resTemplate.data, resDump);
+  await FileSaver.saveAs(new Blob([buf]), 'dump.xlsx');
+};
+
 onMounted(() => {
   if (id.value) {
     fetch();
@@ -126,6 +134,7 @@ onMounted(() => {
 
         <v-list>
           <v-list-item @click="selectFile">Загрузить</v-list-item>
+          <v-list-item @click="downloadDump">Выгрузить</v-list-item>
         </v-list>
       </v-col>
     </v-row>
