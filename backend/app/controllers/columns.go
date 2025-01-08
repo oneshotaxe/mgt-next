@@ -246,6 +246,61 @@ func (cc *ColumnsController) Journal(c *fiber.Ctx) error {
 	return c.JSON(journal)
 }
 
+func (cc *ColumnsController) Dump(c *fiber.Ctx) error {
+	var dto struct {
+		ID uint `params:"id" validate:"required"`
+	}
+	if err := c.ParamsParser(&dto); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(err.Error())
+	}
+
+	var dump struct {
+		Drivers []models.Driver `json:"drivers"`
+		Buses   []models.Bus    `json:"buses"`
+		Routes  []models.Route  `json:"routes"`
+		Gates   []models.Gate   `json:"gates"`
+	}
+	tx := cc.db.Model(&models.Driver{})
+	tx.Where("drivers.column_id = ?", dto.ID)
+	err := tx.
+		Joins("left join buses on drivers.bus_id = buses.id").
+		Preload("Bus").
+		Find(&dump.Drivers).
+		Error
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
+	}
+
+	tx = cc.db.Model(&models.Bus{}).Where("column_id = ?", dto.ID)
+	err = tx.
+		Preload("Gate").
+		Preload("Gate.Route").
+		Find(&dump.Buses).
+		Error
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
+	}
+
+	tx = cc.db.Model(&models.Route{}).Where("column_id = ?", dto.ID)
+	err = tx.
+		Find(&dump.Routes).
+		Error
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
+	}
+
+	tx = cc.db.Model(&models.Gate{}).Where("column_id = ?", dto.ID)
+	err = tx.
+		Preload("Route").
+		Find(&dump.Gates).
+		Error
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
+	}
+
+	return c.JSON(dump)
+}
+
 func (cc *ColumnsController) Upload(c *fiber.Ctx) error {
 	var dto struct {
 		ID     uint `params:"id"`

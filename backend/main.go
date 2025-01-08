@@ -87,6 +87,7 @@ func main() {
 		route.Get("/columns/:id<int>/agreement", columnsController.Agreement)
 		route.Get("/columns/:id<int>/journal", columnsController.Journal)
 		route.Post("/columns/:id<int>/upload", columnsController.Upload)
+		route.Get("/columns/:id<int>/dump", columnsController.Dump)
 
 		route.Post("/buses", busesController.Create)
 		route.Get("/buses", busesController.GetAll)
