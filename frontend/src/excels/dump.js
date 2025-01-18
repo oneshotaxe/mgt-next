@@ -6,16 +6,47 @@ export default async function (template, dump) {
 
   let ws = wb.getWorksheet("Водители");
   for (let i = 0; i < dump.drivers.length; i++) {
-    ws.getCell(2 + i, 1).value = dump.drivers[i].num;
-    ws.getCell(2 + i, 2).value = dump.drivers[i].fullName;
-    ws.getCell(2 + i, 3).value = dump.drivers[i].bus?.num;
+    const driver = dump.drivers[i];
+
+    const defaultItems = driver.graphic.format.split("");
+    if (driver.graphic.items.length % defaultItems.length !== 0) {
+      continue;
+    }
+    const groups = [];
+    for (let i = 0; i < driver.graphic.items.length; i += defaultItems.length) {
+      groups.push(
+        driver.graphic.items.slice(i, i + defaultItems.length).map((ch) => {
+          switch (ch) {
+            case "Р":
+              return "F";
+            case "1":
+              return "1";
+            case "2":
+              return "2";
+            case "В":
+              return "W";
+            case "О":
+              return "O";
+          }
+        })
+      );
+    }
+    console.log(groups);
+    let graphic = `${driver.graphic.name}.${groups
+      .map((g) => g.join(","))
+      .join("|")}`;
+
+    ws.getCell(2 + i, 1).value = driver.num;
+    ws.getCell(2 + i, 2).value = driver.fullName;
+    ws.getCell(2 + i, 3).value = driver.bus?.num;
+    ws.getCell(2 + i, 4).value = graphic;
   }
 
   ws = wb.getWorksheet("Автобусы");
   for (let i = 0; i < dump.buses.length; i++) {
     ws.getCell(2 + i, 1).value = dump.buses[i].num;
-    ws.getCell(2 + i, 2).value = dump.buses[i].gate?.num;
-    ws.getCell(2 + i, 3).value = dump.buses[i].gate?.route?.num;
+    ws.getCell(2 + i, 2).value = dump.buses[i].gate?.route?.num;
+    ws.getCell(2 + i, 3).value = dump.buses[i].gate?.num;
   }
 
   ws = wb.getWorksheet("Маршруты");
