@@ -31,15 +31,11 @@ export default async function (template, dump) {
         })
       );
     }
-    console.log(groups);
-    let graphic = `${driver.graphic.name}.${groups
-      .map((g) => g.join(","))
-      .join("|")}`;
-
     ws.getCell(2 + i, 1).value = driver.num;
     ws.getCell(2 + i, 2).value = driver.fullName;
     ws.getCell(2 + i, 3).value = driver.bus?.num;
-    ws.getCell(2 + i, 4).value = graphic;
+    ws.getCell(2 + i, 4).value = driver.graphic.name;
+    ws.getCell(2 + i, 5).value = groups.map((g) => g.join(",")).join("|");
   }
 
   ws = wb.getWorksheet("Автобусы");
