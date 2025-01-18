@@ -52,15 +52,23 @@ export default async function (template, dump) {
 
   ws = wb.getWorksheet("Выходы");
   for (let i = 0; i < dump.gates.length; i++) {
-    ws.getCell(2 + i, 1).value = dump.gates[i].route?.num;
-    ws.getCell(2 + i, 2).value = dump.gates[i].num;
-    ws.getCell(2 + i, 3).value = dump.gates[i].durationFirstSmene;
-    ws.getCell(2 + i, 4).value = dump.gates[i].durationSecondSmene;
-    ws.getCell(2 + i, 5).value = dump.gates[i].outPark;
-    ws.getCell(2 + i, 6).value = dump.gates[i].change;
-    ws.getCell(2 + i, 7).value = dump.gates[i].endWork;
-    ws.getCell(2 + i, 8).value = dump.gates[i].lunchFirstSmene;
-    ws.getCell(2 + i, 9).value = dump.gates[i].lunchSecondSmene;
+    ws.getCell(3 + i, 1).value = dump.gates[i].route?.num;
+    ws.getCell(3 + i, 2).value = dump.gates[i].num;
+    const isTwoShifts =
+      dump.gates[i].change &&
+      dump.gates[i].durationSecondSmene &&
+      dump.gates[i].lunchSecondSmene;
+
+    ws.getCell(3 + i, 3).value = isTwoShifts ? "Да" : "Нет";
+    ws.getCell(3 + i, 4).value = dump.gates[i].outPark;
+    ws.getCell(3 + i, 5).value = dump.gates[i].durationFirstSmene;
+    ws.getCell(3 + i, 6).value = dump.gates[i].lunchFirstSmene;
+    if (isTwoShifts) {
+      ws.getCell(3 + i, 7).value = dump.gates[i].change;
+      ws.getCell(3 + i, 8).value = dump.gates[i].durationSecondSmene;
+      ws.getCell(3 + i, 9).value = dump.gates[i].lunchSecondSmene;
+    }
+    ws.getCell(3 + i, 10).value = dump.gates[i].endWork;
   }
 
   return await wb.xlsx.writeBuffer();
